@@ -16,7 +16,8 @@
 
 package co.cask.http;
 
-import org.jboss.netty.handler.codec.http.HttpRequest;
+
+import io.netty.handler.codec.http.HttpRequest;
 
 /**
  * A base implementation of {@link HttpHandler} that provides a method for sending a request to other

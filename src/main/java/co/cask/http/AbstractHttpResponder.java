@@ -22,10 +22,12 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBufferOutputStream;
-import org.jboss.netty.buffer.ChannelBuffers;
-import org.jboss.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.netty.buffer.ChannelBuffer;
+import io.netty.netty.buffer.ChannelBufferOutputStream;
+import io.netty.netty.buffer.ChannelBuffers;
+import io.netty.handler.codec.http.HttpResponseStatus;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -53,7 +55,7 @@ public abstract class AbstractHttpResponder implements HttpResponder {
   @Override
   public void sendJson(HttpResponseStatus status, Object object, Type type, Gson gson) {
     try {
-      ChannelBuffer channelBuffer = ChannelBuffers.dynamicBuffer();
+      ByteBuf channelBuffer = Unpooled.dynamicBuffer();
       try (
         JsonWriter jsonWriter = new JsonWriter(
           new OutputStreamWriter(new ChannelBufferOutputStream(channelBuffer), Charsets.UTF_8))

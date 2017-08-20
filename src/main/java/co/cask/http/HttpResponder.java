@@ -18,8 +18,8 @@ package co.cask.http;
 
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.buffer.ByteBuf;
+import io.netty.handler.codec.http.HttpResponseStatus;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -126,7 +126,7 @@ public interface HttpResponder {
    * @param contentType Type of content.
    * @param headers Headers to be sent back.
    */
-  void sendContent(HttpResponseStatus status, ChannelBuffer content, String contentType,
+  void sendContent(HttpResponseStatus status, ByteBuf content, String contentType,
                    @Nullable Multimap<String, String> headers);
 
 

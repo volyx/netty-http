@@ -16,7 +16,7 @@
 
 package co.cask.http;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
 /**
  * HttpHandler would extend this abstract class and implement methods to stream the body directly.
@@ -29,7 +29,7 @@ public abstract class BodyConsumer {
    * @param request
    * @param responder
    */
-  public abstract void chunk(ChannelBuffer request, HttpResponder responder);
+  public abstract void chunk(ByteBuf request, HttpResponder responder);
 
   /**
    * This is called on the receipt of the last HttpChunk.

@@ -20,8 +20,8 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.HashMultimap;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.jboss.netty.buffer.ChannelBuffers;
-import org.jboss.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.netty.buffer.ChannelBuffers;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import org.junit.Assert;
 import org.junit.Test;
 

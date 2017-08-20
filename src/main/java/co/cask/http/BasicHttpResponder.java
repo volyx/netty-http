@@ -21,20 +21,19 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelFuture;
-import org.jboss.netty.channel.ChannelFutureListener;
-import org.jboss.netty.channel.DefaultFileRegion;
-import org.jboss.netty.channel.FileRegion;
-import org.jboss.netty.handler.codec.http.DefaultHttpChunk;
-import org.jboss.netty.handler.codec.http.DefaultHttpResponse;
-import org.jboss.netty.handler.codec.http.HttpChunk;
-import org.jboss.netty.handler.codec.http.HttpHeaders;
-import org.jboss.netty.handler.codec.http.HttpResponse;
-import org.jboss.netty.handler.codec.http.HttpResponseStatus;
-import org.jboss.netty.handler.codec.http.HttpVersion;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.DefaultFileRegion;
+import io.netty.channel.FileRegion;
+import io.netty.handler.codec.http.DefaultHttpChunk;
+import io.netty.handler.codec.http.DefaultHttpResponse;
+import io.netty.handler.codec.http.HttpChunk;
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +66,7 @@ public class BasicHttpResponder extends AbstractHttpResponder {
 
   @Override
   public ChunkResponder sendChunkStart(HttpResponseStatus status, @Nullable Multimap<String, String> headers) {
-    Preconditions.checkArgument((status.getCode() >= 200 && status.getCode() < 210) , "Http Chunk Failure");
+    Preconditions.checkArgument((status.code() >= 200 && status.code() < 210) , "Http Chunk Failure");
     HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, status);
 
     setCustomHeaders(response, headers);
@@ -84,7 +83,7 @@ public class BasicHttpResponder extends AbstractHttpResponder {
   }
 
   @Override
-  public void sendContent(HttpResponseStatus status, @Nullable ChannelBuffer content, String contentType,
+  public void sendContent(HttpResponseStatus status, @Nullable ByteBuf content, String contentType,
                           @Nullable Multimap<String, String> headers) {
     HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, status);
 

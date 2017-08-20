@@ -16,13 +16,13 @@
 
 package co.cask.http;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelFuture;
-import org.jboss.netty.channel.ChannelFutureListener;
-import org.jboss.netty.handler.codec.http.DefaultHttpChunk;
-import org.jboss.netty.handler.codec.http.DefaultHttpChunkTrailer;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.handler.codec.http.DefaultHttpChunk;
+import io.netty.handler.codec.http.DefaultHttpChunkTrailer;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -45,11 +45,11 @@ final class ChannelChunkResponder implements ChunkResponder {
 
   @Override
   public void sendChunk(ByteBuffer chunk) throws IOException {
-    sendChunk(ChannelBuffers.wrappedBuffer(chunk));
+    sendChunk(Unpooled.wrappedBuffer(chunk));
   }
 
   @Override
-  public void sendChunk(ChannelBuffer chunk) throws IOException {
+  public void sendChunk(ByteBuf chunk) throws IOException {
     if (closed.get()) {
       throw new IOException("ChunkResponder already closed.");
     }

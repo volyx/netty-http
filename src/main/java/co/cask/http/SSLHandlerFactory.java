@@ -17,7 +17,7 @@
 package co.cask.http;
 
 import com.google.common.io.Closeables;
-import org.jboss.netty.handler.ssl.SslHandler;
+import io.netty.handler.ssl.SslHandler;
 
 import java.io.File;
 import java.io.FileInputStream;

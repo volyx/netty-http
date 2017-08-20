@@ -16,10 +16,10 @@
 
 package co.cask.http;
 
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.channel.MessageEvent;
-import org.jboss.netty.channel.SimpleChannelDownstreamHandler;
-import org.jboss.netty.handler.codec.http.HttpResponse;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.MessageEvent;
+import io.netty.channel.SimpleChannelDownstreamHandler;
+import io.netty.handler.codec.http.HttpResponse;
 
 /**
  * Test ChannelHandler that adds a default header to every response.

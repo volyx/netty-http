@@ -16,8 +16,8 @@
 
 package co.cask.http;
 
-import org.jboss.netty.handler.codec.http.HttpRequest;
-import org.jboss.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponseStatus;
 
 /**
  * Interface that needs to be implemented to intercept handler method calls.

@@ -16,12 +16,12 @@
 
 package co.cask.http;
 
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.channel.ChannelStateEvent;
-import org.jboss.netty.channel.MessageEvent;
-import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
-import org.jboss.netty.handler.codec.http.HttpChunk;
-import org.jboss.netty.handler.codec.http.HttpMessage;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelStateEvent;
+import io.netty.channel.MessageEvent;
+import io.netty.channel.SimpleChannelUpstreamHandler;
+import io.netty.handler.codec.http.HttpChunk;
+import io.netty.handler.codec.http.HttpMessage;
 
 /**
  * HttpDispatcher that invokes the appropriate http-handler method. The handler and the arguments are read
@@ -45,7 +45,7 @@ public class HttpDispatcher extends SimpleChannelUpstreamHandler {
 
   @Override
   public void channelDisconnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
-    HttpMethodInfo methodInfo  = (HttpMethodInfo) ctx.getPipeline().getContext("router").getAttachment();
+    HttpMethodInfo methodInfo  = (HttpMethodInfo) ctx.pipeline().context("router").getAttachment();
     if (methodInfo != null) {
       methodInfo.disconnected();
     }

@@ -18,12 +18,12 @@ package co.cask.http;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMultimap;
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
-import org.jboss.netty.handler.codec.http.HttpChunk;
-import org.jboss.netty.handler.codec.http.HttpHeaders;
-import org.jboss.netty.handler.codec.http.HttpRequest;
-import org.jboss.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpChunk;
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +43,7 @@ class HttpMethodInfo {
   private final Method method;
   private final HttpHandler handler;
   private final boolean isChunkedRequest;
-  private final ChannelBuffer requestContent;
+  private final ByteBuf requestContent;
   private final HttpRequest request;
   private final HttpResponder responder;
   private final Object[] args;
@@ -86,7 +86,7 @@ class HttpMethodInfo {
     if (isStreaming) {
       // Casting guarantee to be succeeded.
       bodyConsumer = (BodyConsumer) invokeResult;
-      if (bodyConsumer != null && requestContent.readable()) {
+      if (bodyConsumer != null && requestContent.isReadable()) {
         bodyConsumerChunk(requestContent);
       }
       if (bodyConsumer != null && !isChunkedRequest) {
@@ -118,11 +118,11 @@ class HttpMethodInfo {
   }
 
   /**
-   * Calls the {@link BodyConsumer#chunk(ChannelBuffer, HttpResponder)} method. If the chunk method call
+   * Calls the {@link BodyConsumer#chunk(ByteBuf, HttpResponder)} method. If the chunk method call
    * throws exception, the {@link BodyConsumer#handleError(Throwable)} will be called and this method will
    * throw {@link HandlerException}.
    */
-  private void bodyConsumerChunk(ChannelBuffer buffer) throws HandlerException {
+  private void bodyConsumerChunk(ByteBuf buffer) throws HandlerException {
     try {
       bodyConsumer.chunk(buffer, responder);
     } catch (Throwable t) {
@@ -196,7 +196,7 @@ class HttpMethodInfo {
 
     if (!request.isChunked() || request.getContent().readable()) {
       request.setChunked(true);
-      request.setContent(ChannelBuffers.EMPTY_BUFFER);
+      request.setContent(Unpooled.EMPTY_BUFFER);
     }
     return request;
   }

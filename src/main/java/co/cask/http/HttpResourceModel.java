@@ -23,10 +23,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.jboss.netty.handler.codec.http.HttpMethod;
-import org.jboss.netty.handler.codec.http.HttpRequest;
-import org.jboss.netty.handler.codec.http.HttpResponseStatus;
-import org.jboss.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.QueryStringDecoder;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -171,7 +171,7 @@ public final class HttpResourceModel {
   private Object getQueryParamValue(Map<Class<? extends Annotation>, ParameterInfo<?>> annotations, String uri) {
     ParameterInfo<List<String>> info = (ParameterInfo<List<String>>) annotations.get(QueryParam.class);
     QueryParam queryParam = info.getAnnotation();
-    List<String> values = new QueryStringDecoder(uri).getParameters().get(queryParam.value());
+    List<String> values = new QueryStringDecoder(uri).parameters().get(queryParam.value());
 
     return (values == null) ? info.convert(defaultValue(annotations)) : info.convert(values);
   }
@@ -182,9 +182,9 @@ public final class HttpResourceModel {
     ParameterInfo<List<String>> info = (ParameterInfo<List<String>>) annotations.get(HeaderParam.class);
     HeaderParam headerParam = info.getAnnotation();
     String headerName = headerParam.value();
-    List<String> headers = request.getHeaders(headerParam.value());
+    List<String> headers = request.headers().getAll(headerParam.value());
 
-    return (request.containsHeader(headerName)) ? info.convert(headers) : info.convert(defaultValue(annotations));
+    return (request.headers().contains(headerName)) ? info.convert(headers) : info.convert(defaultValue(annotations));
   }
 
   /**
